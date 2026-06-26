@@ -32,4 +32,4 @@ def analise():
 
     # Formas de pagamento 
     pagamento = df['FORMA DE PAGAMENTO'].value_counts()
-    return df, faturamento_bruto, faturamento_liquido, taxas, pagamento, df_cancelados, motivo_cancelamento, analise_tempo_por_motivos, solicitacao_atraso
+    return df, faturamento_bruto, faturamento_liquido, taxas, analise_tempo_por_motivos

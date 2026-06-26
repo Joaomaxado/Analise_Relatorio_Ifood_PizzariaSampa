@@ -10,7 +10,7 @@ st.set_page_config('Dashboard Pizzaria', layout="wide")
 st.title('Dashboard Financeiro Sampa')
 
 # Executa o pipeline de dados
-df, faturamento_bruto, faturamento_liquido, taxas, pagamento, df_cancelados, motivo_cancelamento, analise_tempo_por_motivos, solicitacao_atraso = analise()
+df, faturamento_bruto, faturamento_liquido, taxas, analise_tempo_por_motivos = analise()
 
 # Garante que a coluna de data é datetime no app
 df['DATA E HORA DO PEDIDO'] = pd.to_datetime(df['DATA E HORA DO PEDIDO'], errors='coerce')
