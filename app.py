@@ -70,11 +70,51 @@ if aba_selecionada == "📊 Métricas":
         st.metric(label='Taxas totais', value=f'R$ {taxas_filtradas:,.2f}')
     
     st.markdown("---")
+    
     # Mostra a forma de pagamento mais comum baseada no período filtrado
     pagamento_filtrado = df_filtrado['FORMA DE PAGAMENTO'].value_counts() if 'FORMA DE PAGAMENTO' in df_filtrado.columns else []
     if len(pagamento_filtrado) > 0:
         forma_comum = pagamento_filtrado.index[0]
         st.metric(label="Principal Forma de Pagamento no Período", value=str(forma_comum))
+
+    st.subheader("💳 Top 5 Formas de Pagamento (Faturamento)")
+        
+        # 1. Agrupa o faturamento por forma de pagamento
+    df_pagamento = df_filtrado.groupby('FORMA DE PAGAMENTO')['TOTAL PAGO PELO CLIENTE (R$)'].sum().reset_index()
+    df_pagamento.columns = ['FORMA DE PAGAMENTO', 'TOTAL PAGO PELO CLIENTE (R$)']
+        
+        # 2. FILTRO TOP 5: Mantém apenas as 5 maiores em valor financeiro
+    df_pagamento_top5 = df_pagamento.nlargest(5, 'TOTAL PAGO PELO CLIENTE (R$)')
+
+        # 3. Plota o gráfico limpo
+    fig_pagamento = px.bar(
+        df_pagamento_top5, 
+        x='FORMA DE PAGAMENTO',
+        y='TOTAL PAGO PELO CLIENTE (R$)',
+        color='TOTAL PAGO PELO CLIENTE (R$)',
+        color_continuous_scale='Blues',
+        text_auto='R$ .2s'  # Adiciona o prefixo de Real antes do valor resumido (ex: R$ 52k)
+        )
+    fig_pagamento.update_layout(template='plotly_dark', showlegend=False)
+    st.plotly_chart(fig_pagamento, use_container_width=True)
+        
+    # Gráfico de Linha de Tendência 
+    df_filtrado['Data_Dia'] = df_filtrado['DATA E HORA DO PEDIDO'].dt.date
+    df_linha = df_filtrado.groupby('Data_Dia')['TOTAL PAGO PELO CLIENTE (R$)'].sum().reset_index()
+    df_linha.columns = ['Dia', 'Faturamento Bruto (R$)']
+    df_linha = df_linha.sort_values('Dia')
+
+
+    st.subheader('Volume de Vendas')
+    fig_linha = px.line(
+        df_linha,
+        x='Dia',
+        y='Faturamento Bruto (R$)',
+        markers=True
+        )
+    fig_linha.update_traces(line=dict(color='#FF4B4B', width=3), line_shape='spline')
+    fig_linha.update_layout(template='plotly_dark')
+    st.plotly_chart(fig_linha, use_container_width=True)
 
 # ================= ABA 2: ANÁLISE DE CANCELAMENTOS =================
 elif aba_selecionada == "⏱️ Análise de Cancelamentos":
