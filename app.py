@@ -93,8 +93,7 @@ if aba_selecionada == "📊 Métricas":
         y='TOTAL PAGO PELO CLIENTE (R$)',
         color='TOTAL PAGO PELO CLIENTE (R$)',
         color_continuous_scale='Blues',
-        text_auto='R$ .2s',
-        use_container_width=True  # Adiciona o prefixo de Real antes do valor resumido (ex: R$ 52k)
+        text_auto='R$ .2s'  # Adiciona o prefixo de Real antes do valor resumido (ex: R$ 52k)
         )
     fig_pagamento.update_layout(template='plotly_dark', showlegend=False)
     st.plotly_chart(fig_pagamento, use_container_width=True)
