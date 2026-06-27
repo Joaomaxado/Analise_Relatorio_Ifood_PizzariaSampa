@@ -111,7 +111,6 @@ if aba_selecionada == "📊 Métricas":
         x='Dia',
         y='Faturamento Bruto (R$)',
         markers=True,
-        use_container_width=True
         )
     fig_linha.update_traces(line=dict(color='#FF4B4B', width=3), line_shape='spline')
     fig_linha.update_layout(template='plotly_dark')
