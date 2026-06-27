@@ -75,7 +75,7 @@ if aba_selecionada == "📊 Métricas":
     pagamento_filtrado = df_filtrado['FORMA DE PAGAMENTO'].value_counts() if 'FORMA DE PAGAMENTO' in df_filtrado.columns else []
     if len(pagamento_filtrado) > 0:
         forma_comum = pagamento_filtrado.index[0]
-        st.metric(label="Principal Forma de Pagamento no Período", value=str(forma_comum), use_container_width=True)
+        st.metric(label="Principal Forma de Pagamento no Período", value=str(forma_comum))
 
     st.subheader("💳 Top 5 Formas de Pagamento (Faturamento)")
         
@@ -111,7 +111,8 @@ if aba_selecionada == "📊 Métricas":
         df_linha,
         x='Dia',
         y='Faturamento Bruto (R$)',
-        markers=True
+        markers=True,
+        use_container_width=True
         )
     fig_linha.update_traces(line=dict(color='#FF4B4B', width=3), line_shape='spline')
     fig_linha.update_layout(template='plotly_dark')
